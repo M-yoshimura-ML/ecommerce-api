@@ -15,6 +15,11 @@ class CreateReviewsTable extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            // $table->integer('product_id')->unsigned()->index();
+            $table->foreignId('product_id')->constrained()->onDelete('cascade')->index();
+            $table->string('customer');
+            $table->text('review');
+            $table->integer('star');
             $table->timestamps();
         });
     }
