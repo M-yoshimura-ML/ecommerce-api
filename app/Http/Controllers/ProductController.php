@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Resources\Product\ProductCollection;
+use App\Http\Resources\Product\ProductDetailCollection;
+use App\Http\Resources\Product\ProductDetailResource;
 use App\Http\Resources\Product\ProductResource;
 
 class ProductController extends Controller
@@ -16,7 +19,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::all();
+        //return ProductResource::collection(Product::all());
+        //return ProductCollection::collection(Product::all()); //Call to undefined method App\Models\Product::mapInto()
+        return new ProductCollection(Product::paginate(20));
     }
 
     /**
@@ -49,7 +54,8 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         // return $product;
-        return new ProductResource($product);
+        // return new ProductResource($product);
+        return new ProductDetailResource($product);
     }
 
     /**
