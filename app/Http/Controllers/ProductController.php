@@ -9,9 +9,14 @@ use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductDetailCollection;
 use App\Http\Resources\Product\ProductDetailResource;
 use App\Http\Resources\Product\ProductResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
+    // public function __construct(){
+    //     $this->middleware('auth:api')->except('index', 'show');
+    // }
+
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +47,19 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        // return 'asd';
+        $product = Product::create([
+            'name' => $request->name,
+            'detail' => $request->description,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'discount' => $request->discount
+        ]);
+
+        return response([
+            // 'data' => $product
+            'data' => new ProductResource($product)
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -78,7 +95,14 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $product = Product::findOrFail($product->id);
+        $product['detail']=$request->description;
+        // $product->update($request->all());
+        $product->save();
+        return response([
+            // 'data' => $product
+            'data' => $product
+        ],Response::HTTP_CREATED);
     }
 
     /**

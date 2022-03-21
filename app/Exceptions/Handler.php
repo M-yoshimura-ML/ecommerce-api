@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -13,7 +15,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
-        //
+        // \Illuminate\Auth\Access\AuthorizationException::class
     ];
 
     /**
@@ -38,4 +40,5 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
 }

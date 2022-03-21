@@ -10,9 +10,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/products', ProductController::class);
+// Route::apiResource('/products', ProductController::class);
+Route::middleware('auth:api')->prefix('/products')->group(function(){
+    Route::post('', [ProductController::class, 'store'])->name('products.store');
+    Route::put('{product}', [ProductController::class, 'update'])->name('products.update');
+    // Route::post('', function(Request $request){ return $request->user();})->name('products.store');
+});
+
 
 Route::prefix('products')->group(function () {
+    Route::get('', [ProductController::class, 'index'] )->name(('products.index'));
+    Route::get('{product}', [ProductController::class, 'show'] )->name(('products.show'));
     Route::apiResource('{product}/reviews', ReviewController::class);
     // Route::get('{product}', [ProductController::class, 'show'] );
     // Route::get('{/product}/reviews', [ReviewController::class, 'index'] )->name('reviews.index');
