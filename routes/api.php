@@ -14,6 +14,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->prefix('/products')->group(function(){
     Route::post('', [ProductController::class, 'store'])->name('products.store');
     Route::put('{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('{product}', [ProductController::class, 'destroy'])->name('products.destory');
     // Route::post('', function(Request $request){ return $request->user();})->name('products.store');
 });
 
